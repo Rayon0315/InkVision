@@ -55,7 +55,7 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         DebugWidget.h DebugWidget.cpp DebugWidget.ui
         RealtimeWidget.h RealtimeWidget.cpp RealtimeWidget.ui
         MyMath.h
-        MyMarh.cpp
+        MyMath.cpp
 
     )
 else()
