@@ -56,6 +56,7 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         RealtimeWidget.h RealtimeWidget.cpp RealtimeWidget.ui
         MyMath.h
         MyMath.cpp
+        NavButton.h NavButton.cpp
 
     )
 else()

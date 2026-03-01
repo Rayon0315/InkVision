@@ -18,7 +18,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QPushButton" name="btnStart">
+       <widget class="NavButton" name="btnStart">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -31,7 +31,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btnDebug">
+       <widget class="NavButton" name="btnDebug">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -44,7 +44,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btnRealtime">
+       <widget class="NavButton" name="btnRealtime">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -91,6 +91,11 @@
    <extends>QWidget</extends>
    <header>RealtimeWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>NavButton</class>
+   <extends>QPushButton</extends>
+   <header>NavButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
