@@ -54,52 +54,52 @@ std::vector<float> DrawBoard::getNormalizedSizeOri() const {
 }
 
 
-// 利用opencv进行调整
-// std::vector<float> DrawBoard::getNormalizedSize() const {
-//     // 用cv::Mat处理数据
-//     cv::Mat img(canvas.height(), canvas.width(), CV_8UC1,
-//                 const_cast<uchar*>(canvas.bits()),
-//                 canvas.bytesPerLine());
+// 利用opencv进行调整，但是缩放策略有问题
+std::vector<float> DrawBoard::getNormalizedSizeMid() const {
+    // 用cv::Mat处理数据
+    cv::Mat img(canvas.height(), canvas.width(), CV_8UC1,
+                const_cast<uchar*>(canvas.bits()),
+                canvas.bytesPerLine());
 
-//     // 防止浅拷贝
-//     img = img.clone();
+    // 防止浅拷贝
+    img = img.clone();
 
-//     // 二值化
-//     cv::threshold(img, img, 10, 255, cv::THRESH_BINARY);
+    // 二值化
+    cv::threshold(img, img, 10, 255, cv::THRESH_BINARY);
 
-//     // 查看前景区域
-//     std::vector<cv::Point> points;
-//     cv::findNonZero(img, points);
+    // 查看前景区域
+    std::vector<cv::Point> points;
+    cv::findNonZero(img, points);
 
-//     if (points.empty()) return std::vector<float>(28 * 28, 0.f);
+    if (points.empty()) return std::vector<float>(28 * 28, 0.f);
 
-//     cv::Rect bbox = cv::boundingRect(points);
-//     cv::Mat digit = img(bbox);
+    cv::Rect bbox = cv::boundingRect(points);
+    cv::Mat digit = img(bbox);
 
-//     // 缩放到 20×20
-//     cv::Mat resized;
-//     cv::resize(digit, resized, cv::Size(20, 20), 0, 0, cv::INTER_AREA);
+    // 缩放到 20×20
+    cv::Mat resized;
+    cv::resize(digit, resized, cv::Size(20, 20), 0, 0, cv::INTER_AREA);
 
-//     // 居中填充到 28×28
-//     cv::Mat padded = cv::Mat::zeros(28, 28, CV_32F);
+    // 居中填充到 28×28
+    cv::Mat padded = cv::Mat::zeros(28, 28, CV_32F);
 
-//     cv::Mat resized_f;
-//     resized.convertTo(resized_f, CV_32F, 1. / 255.);
+    cv::Mat resized_f;
+    resized.convertTo(resized_f, CV_32F, 1. / 255.);
 
-//     resized_f.copyTo(padded(cv::Rect(4, 4, 20, 20)));
+    resized_f.copyTo(padded(cv::Rect(4, 4, 20, 20)));
 
-//     // 高斯模糊：模仿MNIST
-//     cv::GaussianBlur(padded, padded, cv::Size(3, 3), 0.5);
+    // 高斯模糊：模仿MNIST
+    cv::GaussianBlur(padded, padded, cv::Size(3, 3), 0.5);
 
-//     std::vector<float> data(28 * 28);
-//     for (int y = 0; y < 28; y++) {
-//         for (int x = 0; x < 28; x++) {
-//             data[y * 28 + x] = padded.at<float>(y, x);
-//         }
-//     }
+    std::vector<float> data(28 * 28);
+    for (int y = 0; y < 28; y++) {
+        for (int x = 0; x < 28; x++) {
+            data[y * 28 + x] = padded.at<float>(y, x);
+        }
+    }
 
-//     return data;
-// }
+    return data;
+}
 
 std::vector<float> DrawBoard::getNormalizedSize() const {
 

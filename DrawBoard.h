@@ -16,6 +16,7 @@ public:
 
     void clear();
     std::vector<float> getNormalizedSize() const;
+    std::vector<float> getNormalizedSizeMid() const;
     std::vector<float> getNormalizedSizeOri() const;
 
     void paintEvent(QPaintEvent *) override;

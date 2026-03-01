@@ -6,6 +6,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
+    setStyleSheet("QMainWindow { background-color: #1F2228; }");
+
     ui->setupUi(this);
 
     ui->stackedWidget->setCurrentWidget(ui->pageStart);

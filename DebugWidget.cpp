@@ -48,6 +48,7 @@ void DebugWidget::on_btnPred_clicked() {
 
     ui->labelPix->setPixmap(pix);
 
+
     auto dataOri = ui->Board->getNormalizedSizeOri();
     cv::Mat mat28_1(28, 28, CV_32F, dataOri.data());
     cv::Mat mat28_copy_1 = mat28_1.clone();
@@ -64,6 +65,24 @@ void DebugWidget::on_btnPred_clicked() {
                                 Qt::FastTransformation);
 
     ui->labelOri->setPixmap(pix_1);
+
+
+    auto dataMid = ui->Board->getNormalizedSizeMid();
+    cv::Mat mat28_2(28, 28, CV_32F, dataMid.data());
+    cv::Mat mat28_copy_2 = mat28_2.clone();
+
+    cv::Mat img8u_2;
+    mat28_copy_2.convertTo(img8u_2, CV_8UC1, 255.);
+
+    QImage img_2(img8u_2.data, 28, 28, img8u_2.step,
+                 QImage::Format_Grayscale8);
+
+    QPixmap pix_2 = QPixmap::fromImage(img_2)
+                        .scaled(ui->labelMid->size(),
+                                Qt::KeepAspectRatio,
+                                Qt::FastTransformation);
+
+    ui->labelMid->setPixmap(pix_2);
 }
 
 void DebugWidget::on_btnClear_clicked() {
@@ -72,6 +91,7 @@ void DebugWidget::on_btnClear_clicked() {
     ui->Board->clear();
     ui->labelOri->clear();
     ui->labelPix->clear();
+    ui->labelMid->clear();
 }
 
 void DebugWidget::pageClear() {
@@ -80,6 +100,7 @@ void DebugWidget::pageClear() {
     ui->editPred->clear();
     ui->labelOri->clear();
     ui->labelPix->clear();
+    ui->labelMid->clear();
 }
 
 DebugWidget::~DebugWidget()
