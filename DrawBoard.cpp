@@ -9,6 +9,7 @@ DrawBoard::DrawBoard(QWidget *parent)
     canvas(280, 280, QImage::Format_Grayscale8) {
     canvas.fill(Qt::black);
     setFixedSize(280, 280);
+    penWidth = 25;
 }
 
 void DrawBoard::clear() {
@@ -30,12 +31,16 @@ void DrawBoard::mouseMoveEvent(QMouseEvent *e) {
     if (!(e->buttons() & Qt::LeftButton)) return;
 
     QPainter p(&canvas);
-    p.setPen(QPen(Qt::white, 25, Qt::SolidLine, Qt::RoundCap));
+    p.setPen(QPen(Qt::white, penWidth, Qt::SolidLine, Qt::RoundCap));
     p.drawLine(lastPos, e->pos());
     lastPos = e->pos();
     update();
 
     emit mouseMoved(lastPos, e->pos());
+}
+
+void DrawBoard::setPenWidth(int value) {
+    penWidth = value;
 }
 
 // 粗暴缩放：正确率不高

@@ -10,6 +10,7 @@ class DrawBoard : public QWidget {
 private:
     QImage canvas;
     QPoint lastPos;
+    int penWidth;
 
 public:
     explicit DrawBoard(QWidget *parent = nullptr);
@@ -22,6 +23,8 @@ public:
     void paintEvent(QPaintEvent *) override;
     void mousePressEvent(QMouseEvent *) override;
     void mouseMoveEvent(QMouseEvent *) override;
+
+    void setPenWidth(int value);
 
 signals:
     void mouseMoved(const QPoint& start, const QPoint& end); // 信号函数，供实时调用

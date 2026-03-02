@@ -26,7 +26,7 @@ private:
     cv::dnn::Net net;
 
 private slots:
-    void on_mouse_moved(const QPoint& start, const QPoint& end); // 槽函数，接收鼠标移动信号
+    void handle_mouse_moved(const QPoint& start, const QPoint& end); // 槽函数，接收鼠标移动信号
 };
 
 #endif // REALTIMEWIDGET_H

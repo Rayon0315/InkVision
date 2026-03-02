@@ -57,7 +57,11 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         MyMath.h
         MyMath.cpp
         NavButton.h NavButton.cpp
-
+    )
+    qt_add_resources(InkVision "styles"
+        PREFIX "/"
+        FILES
+            styles/style.css
     )
 else()
     if(ANDROID)

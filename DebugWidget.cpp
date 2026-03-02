@@ -1,6 +1,7 @@
 #include "DebugWidget.h"
 #include "ui_DebugWidget.h"
 #include "MyMath.h"
+#include <QFile>
 
 DebugWidget::DebugWidget(QWidget *parent)
     : QWidget(parent)
@@ -11,6 +12,18 @@ DebugWidget::DebugWidget(QWidget *parent)
 
     connect(ui->btnPred, &QPushButton::clicked, this, &DebugWidget::on_btnPred_clicked);
     connect(ui->btnClear, &QPushButton::clicked, this, &DebugWidget::on_btnClear_clicked);
+
+    connect(ui->slidePenWidth, &QSlider::valueChanged, this, [this](int value) {
+        ui->Board->setPenWidth(value);
+    });
+
+    QFile file(":/styles/style.css");
+    if (file.open(QFile::ReadOnly)) {
+        QString style = file.readAll();
+        this->setStyleSheet(style);
+    } else {
+        qDebug() << "style.css 打不开";
+    }
 }
 
 void DebugWidget::on_btnPred_clicked() {

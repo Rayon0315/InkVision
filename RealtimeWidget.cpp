@@ -1,6 +1,7 @@
 #include "RealtimeWidget.h"
 #include "ui_RealtimeWidget.h"
 #include "MyMath.h"
+#include <QFile>
 
 RealtimeWidget::RealtimeWidget(QWidget *parent)
     : QWidget(parent)
@@ -14,7 +15,15 @@ RealtimeWidget::RealtimeWidget(QWidget *parent)
         pageClear();
     });
 
-    connect(ui->Board, &DrawBoard::mouseMoved, this, &RealtimeWidget::on_mouse_moved);
+    connect(ui->Board, &DrawBoard::mouseMoved, this, &RealtimeWidget::handle_mouse_moved);
+
+    QFile file(":/styles/style.css");
+    if (file.open(QFile::ReadOnly)) {
+        QString style = file.readAll();
+        this->setStyleSheet(style);
+    } else {
+        qDebug() << "style.css 打不开";
+    }
 }
 
 void RealtimeWidget::pageClear() {
@@ -60,7 +69,7 @@ void RealtimeWidget::predictDigit() {
     ui->labelPix->setPixmap(pix);
 }
 
-void RealtimeWidget::on_mouse_moved(const QPoint& start, const QPoint& end) {
+void RealtimeWidget::handle_mouse_moved(const QPoint& start, const QPoint& end) {
     predictDigit();
 }
 

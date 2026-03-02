@@ -1,0 +1,64 @@
+/* ===== LineEdit Bold Version ===== */
+
+QLineEdit {
+    background-color: #1E2230;
+    border: 2px solid #3C4C7A;
+    border-radius: 14px;
+    padding: 8px 14px;
+    color: #EAF0FF;
+    font-size: 15px;
+}
+
+/* hover */
+QLineEdit:hover {
+    border: 2px solid #6C8CFF;
+}
+
+/* focus 强调 */
+QLineEdit:focus {
+    border: 2px solid #8F6BFF;
+    background-color: #24293A;
+    selection-background-color: #7F4DFF;
+}
+
+/* ===== 主按钮 ===== */
+
+QPushButton#btnPred {
+    background: qlineargradient(
+        x1:0, y1:0, x2:1, y2:1,
+        stop:0 #5A6BFF,
+        stop:1 #7F4DFF
+    );
+    border: none;
+    border-radius: 18px;
+    padding: 12px 20px;
+    color: white;
+    font-weight: 500;
+}
+
+QPushButton#btnPred:hover {
+    background: qlineargradient(
+        x1:0, y1:0, x2:1, y2:1,
+        stop:0 #6D7DFF,
+        stop:1 #9A6BFF
+    );
+}
+
+QPushButton#btnPred:pressed {
+    background: #4C56CC;
+}
+
+/* ===== 次按钮 ===== */
+
+QPushButton#btnClear {
+    background-color: #1E2230;
+    border: 2px solid #FF5E87;
+    border-radius: 18px;
+    padding: 12px 20px;
+    color: #FF8CA8;
+}
+
+QPushButton#btnClear:hover {
+    background-color: #2A2436;
+    border: 2px solid #FF7AA3;
+}
