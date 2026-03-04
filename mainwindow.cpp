@@ -24,6 +24,11 @@ MainWindow::MainWindow(QWidget *parent)
         ui->pageRealtime->pageClear();
         ui->stackedWidget->setCurrentWidget(ui->pageRealtime);
     });
+
+    QPixmap pix(":/images/logo.jpg");
+    ui->icon->setPixmap(pix);
+    ui->icon->setScaledContents(true);
+
 }
 
 MainWindow::~MainWindow()

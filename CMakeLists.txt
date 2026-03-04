@@ -57,6 +57,8 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         MyMath.h
         MyMath.cpp
         NavButton.h NavButton.cpp
+        resources.qrc
+
     )
     qt_add_resources(InkVision "styles"
         PREFIX "/"

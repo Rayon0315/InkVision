@@ -61,7 +61,23 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <widget class="DebugWidget" name="pageDebug"/>
-      <widget class="QWidget" name="pageStart"/>
+      <widget class="QWidget" name="pageStart">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="icon">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="RealtimeWidget" name="pageRealtime"/>
      </widget>
     </item>
