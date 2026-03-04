@@ -14,7 +14,7 @@ RealtimeWidget::RealtimeWidget(QWidget *parent)
 
     connect(ui->Board, &DrawBoard::mouseMoved, this, &RealtimeWidget::handle_mouse_moved);
 
-    QFile file(":/styles/style.css");
+    QFile file(":/style/basic.css");
     if (file.open(QFile::ReadOnly)) {
         QString style = file.readAll();
         this->setStyleSheet(style);
@@ -24,6 +24,7 @@ RealtimeWidget::RealtimeWidget(QWidget *parent)
 }
 
 void RealtimeWidget::pageClear() {
+    ui->Chart->clear();
     ui->Board->clear();
     ui->editConf->clear();
     ui->editPred->clear();
@@ -42,7 +43,7 @@ void RealtimeWidget::predictDigit() {
 
     cv::Mat prob = ui->Board->predict();
 
-    ui->chart->updateProb(prob);
+    ui->Chart->updateProb(prob);
 
     cv::Point classId;
     double conf;

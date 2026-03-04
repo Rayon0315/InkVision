@@ -15,7 +15,7 @@ DebugWidget::DebugWidget(QWidget *parent)
         ui->Board->setPenWidth(value);
     });
 
-    QFile file(":/styles/style.css");
+    QFile file(":/style/basic.css");
     if (file.open(QFile::ReadOnly)) {
         QString style = file.readAll();
         this->setStyleSheet(style);

@@ -24,6 +24,7 @@ public:
     ~ChartWidget();
 
     void updateProb(const cv::Mat &prob);
+    void clear();
 
 private:
     Ui::ChartWidget *ui;

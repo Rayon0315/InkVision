@@ -67,3 +67,7 @@ void ChartWidget::updateProb(const cv::Mat &prob)
         *set << p;
     }
 }
+
+void ChartWidget::clear() {
+    set->remove(0, set->count());
+}
