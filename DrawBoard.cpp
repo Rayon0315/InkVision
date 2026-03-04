@@ -215,6 +215,10 @@ cv::Mat DrawBoard::predict() {
     cv::Mat out = net.forward();
     cv::Mat prob = softmax(out);
 
+    // for (int i = 0; i < prob.cols; i++) {
+    //     qDebug() << i << ":" << prob.at<float>(0, i) * 100 << "%";
+    // }
+
     return prob;
 }
 

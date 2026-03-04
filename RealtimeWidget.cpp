@@ -42,6 +42,8 @@ void RealtimeWidget::predictDigit() {
 
     cv::Mat prob = ui->Board->predict();
 
+    ui->chart->updateProb(prob);
+
     cv::Point classId;
     double conf;
     cv::minMaxLoc(prob, nullptr, &conf, nullptr, &classId);

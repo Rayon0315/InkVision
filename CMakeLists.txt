@@ -22,6 +22,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Charts)
 
 # ============================================================
 # OpenCV
@@ -58,6 +59,7 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         MyMath.cpp
         NavButton.h NavButton.cpp
         resources.qrc
+        ChartWidget.h ChartWidget.cpp ChartWidget.ui
 
     )
     qt_add_resources(InkVision "styles"
@@ -80,6 +82,7 @@ endif()
 target_link_libraries(InkVision
     PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Charts
         ${OpenCV_LIBS}
 )
 
