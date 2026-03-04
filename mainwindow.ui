@@ -31,19 +31,6 @@
        </widget>
       </item>
       <item>
-       <widget class="NavButton" name="btnDebug">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Debug</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="NavButton" name="btnRealtime">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -53,6 +40,19 @@
         </property>
         <property name="text">
          <string>Realtime</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="NavButton" name="btnDebug">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Debug</string>
         </property>
        </widget>
       </item>

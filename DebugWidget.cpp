@@ -1,6 +1,5 @@
 #include "DebugWidget.h"
 #include "ui_DebugWidget.h"
-#include "MyMath.h"
 #include <QFile>
 
 DebugWidget::DebugWidget(QWidget *parent)
@@ -8,7 +7,6 @@ DebugWidget::DebugWidget(QWidget *parent)
     , ui(new Ui::DebugWidget)
 {
     ui->setupUi(this);
-    net = cv::dnn::readNetFromONNX("models/resnet.onnx");
 
     connect(ui->btnPred, &QPushButton::clicked, this, &DebugWidget::on_btnPred_clicked);
     connect(ui->btnClear, &QPushButton::clicked, this, &DebugWidget::on_btnClear_clicked);
@@ -29,12 +27,15 @@ DebugWidget::DebugWidget(QWidget *parent)
 void DebugWidget::on_btnPred_clicked() {
     auto data = ui->Board->getNormalizedSize();
 
-    cv::Mat input(1, 28 * 28, CV_32F, data.data());
-    cv::Mat blob = input.reshape(1, {1, 1, 28, 28});
+    // cv::Mat input(1, 28 * 28, CV_32F, data.data());
+    // cv::Mat blob = input.reshape(1, {1, 1, 28, 28});
 
-    net.setInput(blob);
-    cv::Mat out = net.forward();
-    cv::Mat prob = softmax(out);
+    // net.setInput(blob);
+    // cv::Mat out = net.forward();
+    // cv::Mat prob = softmax(out);
+
+    ui->Board->setModel(ui->BoxModelChoice->currentText());
+    cv::Mat prob = ui->Board->predict();
 
     cv::Point classId;
     double conf;

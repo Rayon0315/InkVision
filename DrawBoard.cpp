@@ -1,4 +1,5 @@
 #include "DrawBoard.h"
+#include "MyMath.h"
 #include <QPainter>
 #include <QMouseEvent>
 
@@ -10,6 +11,14 @@ DrawBoard::DrawBoard(QWidget *parent)
     canvas.fill(Qt::black);
     setFixedSize(280, 280);
     penWidth = 25;
+
+    model = {
+        {"MLP", "mlp.onnx"},
+        {"SimpleCNN", "cnn.onnx"},
+        {"LeNet-5", "lenet5.onnx"},
+        {"ResNet", "resnet.onnx"}
+    };
+    net = cv::dnn::readNetFromONNX("models/resnet.onnx");
 }
 
 void DrawBoard::clear() {
@@ -194,4 +203,25 @@ std::vector<float> DrawBoard::getNormalizedSize() const {
     }
 
     return data;
+}
+
+cv::Mat DrawBoard::predict() {
+    auto data = getNormalizedSize();
+
+    cv::Mat input(1, 28 * 28, CV_32F, data.data());
+    cv::Mat blob = input.reshape(1, {1, 1, 28, 28});
+
+    net.setInput(blob);
+    cv::Mat out = net.forward();
+    cv::Mat prob = softmax(out);
+
+    return prob;
+}
+
+void DrawBoard::setModel(QString modelName) {
+    std::string path = "models/" + model[modelName].toStdString();
+    // qDebug() << modelName;
+    // qDebug() << model[modelName];
+    // qDebug() << path;
+    net = cv::dnn::readNetFromONNX(path);
 }

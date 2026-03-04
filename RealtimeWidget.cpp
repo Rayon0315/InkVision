@@ -1,6 +1,5 @@
 #include "RealtimeWidget.h"
 #include "ui_RealtimeWidget.h"
-#include "MyMath.h"
 #include <QFile>
 
 RealtimeWidget::RealtimeWidget(QWidget *parent)
@@ -8,8 +7,6 @@ RealtimeWidget::RealtimeWidget(QWidget *parent)
     , ui(new Ui::RealtimeWidget)
 {
     ui->setupUi(this);
-
-    net = cv::dnn::readNetFromONNX("models/resnet.onnx");
 
     connect(ui->btnClear, &QPushButton::clicked, this, [this]() {
         pageClear();
@@ -36,12 +33,14 @@ void RealtimeWidget::pageClear() {
 void RealtimeWidget::predictDigit() {
     auto data = ui->Board->getNormalizedSize();
 
-    cv::Mat input(1, 28 * 28, CV_32F, data.data());
-    cv::Mat blob = input.reshape(1, {1, 1, 28, 28});
+    // cv::Mat input(1, 28 * 28, CV_32F, data.data());
+    // cv::Mat blob = input.reshape(1, {1, 1, 28, 28});
 
-    net.setInput(blob);
-    cv::Mat out = net.forward();
-    cv::Mat prob = softmax(out);
+    // net.setInput(blob);
+    // cv::Mat out = net.forward();
+    // cv::Mat prob = softmax(out);
+
+    cv::Mat prob = ui->Board->predict();
 
     cv::Point classId;
     double conf;

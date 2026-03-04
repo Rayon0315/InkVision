@@ -23,8 +23,6 @@ public:
 
 private:
     Ui::DebugWidget *ui;
-
-    cv::dnn::Net net;
 };
 
 #endif // DEBUGWIDGET_H

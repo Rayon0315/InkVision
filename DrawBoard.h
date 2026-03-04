@@ -3,6 +3,9 @@
 #include <QWidget>
 #include <QImage>
 #include <QPoint>
+#include <opencv2/dnn.hpp>
+
+
 
 class DrawBoard : public QWidget {
     Q_OBJECT
@@ -11,6 +14,8 @@ private:
     QImage canvas;
     QPoint lastPos;
     int penWidth;
+    cv::dnn::Net net;
+    QMap<QString, QString> model;
 
 public:
     explicit DrawBoard(QWidget *parent = nullptr);
@@ -25,6 +30,9 @@ public:
     void mouseMoveEvent(QMouseEvent *) override;
 
     void setPenWidth(int value);
+
+    void setModel(QString modelName);
+    cv::Mat predict();
 
 signals:
     void mouseMoved(const QPoint& start, const QPoint& end); // 信号函数，供实时调用

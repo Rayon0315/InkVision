@@ -23,8 +23,6 @@ public:
 private:
     Ui::RealtimeWidget *ui;
 
-    cv::dnn::Net net;
-
 private slots:
     void handle_mouse_moved(const QPoint& start, const QPoint& end); // 槽函数，接收鼠标移动信号
 };
