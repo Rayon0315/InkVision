@@ -60,6 +60,7 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         NavButton.h NavButton.cpp
         resources.qrc
         ChartWidget.h ChartWidget.cpp ChartWidget.ui
+        YOLO_Detector.h YOLO_Detector.cpp
 
     )
     # qt_add_resources(InkVision "styles"
