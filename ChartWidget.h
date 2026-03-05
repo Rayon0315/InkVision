@@ -24,6 +24,8 @@ public:
     ~ChartWidget();
 
     void updateProb(const cv::Mat &prob);
+    void updateSortedProb(const cv::Mat &prob);
+
     void clear();
 
 private:
@@ -32,6 +34,12 @@ private:
     QChart *chart;
     QBarSeries *series;
     QBarSet *set;
+    QBarCategoryAxis *axisX;
+
+    struct digitProb {
+        int digit;
+        float prob;
+    };
 };
 
 #endif // CHARTWIDGET_H

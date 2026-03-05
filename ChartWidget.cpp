@@ -7,6 +7,8 @@
 #include <QChart>
 #include <QBarCategoryAxis>
 
+#include <algorithm>
+
 ChartWidget::ChartWidget(QWidget *parent)
     : QWidget(parent),
     ui(new Ui::ChartWidget)
@@ -27,11 +29,11 @@ ChartWidget::ChartWidget(QWidget *parent)
     chart->addSeries(series);
 
     // X轴
+    axisX = new QBarCategoryAxis();
     QStringList categories;
     for (int i = 0; i < 10; i++)
         categories << QString::number(i);
 
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
     axisX->append(categories);
 
     chart->addAxis(axisX, Qt::AlignBottom);
@@ -49,23 +51,40 @@ ChartWidget::ChartWidget(QWidget *parent)
     ui->chartView->setRenderHint(QPainter::Antialiasing);
 }
 
-ChartWidget::~ChartWidget()
-{
+ChartWidget::~ChartWidget() {
     delete ui;
 }
 
-void ChartWidget::updateProb(const cv::Mat &prob)
-{
+void ChartWidget::updateProb(const cv::Mat &prob) {
     if (prob.empty())
         return;
 
     set->remove(0, set->count());
 
-    for (int i = 0; i < prob.cols; i++)
-    {
+    for (int i = 0; i < prob.cols; i++) {
         float p = prob.at<float>(0, i);
         *set << p;
     }
+}
+
+void ChartWidget::updateSortedProb(const cv::Mat &prob) {
+    QVector<digitProb> data;
+    for (int i = 0; i < prob.cols; i++) {
+        data.push_back({i, prob.at<float>(0, i)});
+    }
+    std::sort(data.begin(), data.end(), [](const digitProb &x, const digitProb &y) {
+        return x.prob > y.prob;
+    });
+
+    set->remove(0, set->count());
+    QStringList categories;
+    for (auto dat : data) {
+        *set << dat.prob;
+        categories << QString::number(dat.digit);
+    }
+
+    axisX->clear();
+    axisX->append(categories);
 }
 
 void ChartWidget::clear() {
