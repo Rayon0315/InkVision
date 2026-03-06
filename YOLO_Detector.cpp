@@ -177,6 +177,8 @@ cv::Mat YOLO_Detector::preprocess(const cv::Mat& image,
         return cv::Mat();
     }
 
+    // cv::imshow("padded", padded);
+
     return cv::dnn::blobFromImage(padded,
                                   1.0 / 255.0,
                                   cv::Size(input_width, input_height),

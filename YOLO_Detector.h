@@ -36,9 +36,9 @@ private:
                               const std::vector<float>& confidences);
 
 public:
-    YOLO_Detector(const std::string& model_path = "models/yolo_improved_fixed.onnx",
-                  int input_height = 1280,
-                  int input_width = 256,
+    YOLO_Detector(const std::string& model_path = "models/yolo/yolo_256_1280.onnx",
+                  int input_height = 256,
+                  int input_width = 1280,
                   float conf_threshold = 0.25f,
                   float nms_threshold = 0.45f);
 
