@@ -26,12 +26,12 @@ void YOLO_Detector::basicTest() {
         std::cout << "Success!" << std::endl;
     }
 
-    cv::Mat dummy = cv::Mat::zeros(512, 512, CV_8UC3);
+    cv::Mat dummy = cv::Mat::zeros(1280, 256, CV_8UC3);
 
     cv::Mat blob = cv::dnn::blobFromImage(
         dummy,
         1.0 / 255.0,
-        cv::Size(512, 512),
+        cv::Size(1280, 256),
         cv::Scalar(),
         true,
         false
@@ -92,7 +92,7 @@ cv::Mat YOLO_Detector::preprocess(
     return cv::dnn::blobFromImage(
         padded,
         1.0/255.0,
-        cv::Size(input_size,input_size),
+        cv::Size(1280, 256),
         cv::Scalar(),
         true,
         false
@@ -109,63 +109,156 @@ std::vector<cv::Mat> YOLO_Detector::infer(const cv::Mat& blob) {
     return outputs;
 }
 
+// void YOLO_Detector::decode(const cv::Mat& output,
+//                            std::vector<int>& class_ids,
+//                            std::vector<float>& confidences,
+//                            std::vector<cv::Rect>& boxes) {
+//     int rows = output.size[1];
+//     int dimensions = output.size[2];
+//     int num_classes = dimensions - 5;
+
+//     float* data = (float*)output.data;
+
+//     // float maxObj = 0., maxConf = 0;
+//     // double mmaxScore = 0.;
+
+//     for (int i = 0; i < rows; i++) {
+//         float obj = data[4];
+
+//         if (obj > conf_threshold) {
+//             cv::Mat scores(1, num_classes, CV_32FC1, data + 5);
+
+//             cv::Point classIdPoint;
+//             double maxScore;
+
+//             minMaxLoc(scores, 0, &maxScore, 0, &classIdPoint);
+
+//             float conf = obj * maxScore;
+
+
+//             // maxObj = std::max(obj, maxObj);
+//             // mmaxScore = std::max(maxScore, mmaxScore);
+//             // maxConf = std::max(conf, maxConf);
+//             // std::cout << "obj: " << obj
+//             //           << " class: " << maxScore
+//             //           << " conf: " << conf
+//             //           << std::endl;
+
+//             if (conf > conf_threshold && maxScore > 0.7) {
+//                 float cx = data[0];
+//                 float cy = data[1];
+//                 float w = data[2];
+//                 float h = data[3];
+
+//                 int left = int(cx - w/2);
+//                 int top = int(cy - h/2);
+
+//                 boxes.emplace_back(left, top, (int)w, (int)h);
+//                 confidences.push_back(conf);
+//                 class_ids.push_back(classIdPoint.x);
+//             }
+//         }
+
+//         data += dimensions;
+//     }
+
+//     // std::cout << "maxObj: " << maxObj
+//     //           << " mmaxScore: " << mmaxScore
+//     //           << " maxConf: " << maxConf
+//     //           << std::endl;
+// }
+
+// void YOLO_Detector::decode(const cv::Mat& output,
+//                            std::vector<int>& class_ids,
+//                            std::vector<float>& confidences,
+//                            std::vector<cv::Rect>& boxes)
+// {
+//     int rows = output.size[1];
+//     int dimensions = output.size[2];
+//     int num_classes = dimensions - 5;
+
+//     float* data = (float*)output.data;
+
+//     for (int i = 0; i < rows; i++)
+//     {
+//         float cx = data[0];
+//         float cy = data[1];
+//         float w  = data[2];
+//         float h  = data[3];
+
+//         cv::Mat scores(1, num_classes, CV_32FC1, data + 5);
+
+//         cv::Point classIdPoint;
+//         double maxScore;
+
+//         minMaxLoc(scores, 0, &maxScore, 0, &classIdPoint);
+
+//         float conf = maxScore;
+
+//         if (conf > conf_threshold)
+//         {
+//             int left = int(cx - w / 2);
+//             int top  = int(cy - h / 2);
+
+//             boxes.emplace_back(left, top, (int)w, (int)h);
+//             confidences.push_back(conf);
+//             class_ids.push_back(classIdPoint.x);
+//         }
+
+//         data += dimensions;
+//     }
+// }
+
 void YOLO_Detector::decode(const cv::Mat& output,
                            std::vector<int>& class_ids,
                            std::vector<float>& confidences,
-                           std::vector<cv::Rect>& boxes) {
-    int rows = output.size[1];
-    int dimensions = output.size[2];
+                           std::vector<cv::Rect>& boxes)
+{
+    int rows = output.size[1];       // 56700
+    int dimensions = output.size[2]; // 20
     int num_classes = dimensions - 5;
 
     float* data = (float*)output.data;
 
-    // float maxObj = 0., maxConf = 0;
-    // double mmaxScore = 0.;
-
-    for (int i = 0; i < rows; i++) {
+    for (int i = 0; i < rows; i++)
+    {
         float obj = data[4];
 
-        if (obj > conf_threshold) {
-            cv::Mat scores(1, num_classes, CV_32FC1, data + 5);
+        // 先过滤 objectness
+        if (obj < 0.25)
+        {
+            data += dimensions;
+            continue;
+        }
 
-            cv::Point classIdPoint;
-            double maxScore;
+        // class scores
+        cv::Mat scores(1, num_classes, CV_32FC1, data + 5);
 
-            minMaxLoc(scores, 0, &maxScore, 0, &classIdPoint);
+        cv::Point classIdPoint;
+        double maxScore;
 
-            float conf = obj * maxScore;
+        cv::minMaxLoc(scores, 0, &maxScore, 0, &classIdPoint);
 
+        float conf = obj * maxScore;
 
-            // maxObj = std::max(obj, maxObj);
-            // mmaxScore = std::max(maxScore, mmaxScore);
-            // maxConf = std::max(conf, maxConf);
-            // std::cout << "obj: " << obj
-            //           << " class: " << maxScore
-            //           << " conf: " << conf
-            //           << std::endl;
+        // 置信度过滤
+        if (conf > conf_threshold)
+        {
+            float cx = data[0];
+            float cy = data[1];
+            float w  = data[2];
+            float h  = data[3];
 
-            if (conf > conf_threshold && maxScore > 0.7) {
-                float cx = data[0];
-                float cy = data[1];
-                float w = data[2];
-                float h = data[3];
+            int left = int(cx - w / 2);
+            int top  = int(cy - h / 2);
 
-                int left = int(cx - w/2);
-                int top = int(cy - h/2);
-
-                boxes.emplace_back(left, top, (int)w, (int)h);
-                confidences.push_back(conf);
-                class_ids.push_back(classIdPoint.x);
-            }
+            boxes.emplace_back(left, top, (int)w, (int)h);
+            confidences.push_back(conf);
+            class_ids.push_back(classIdPoint.x);
         }
 
         data += dimensions;
     }
-
-    // std::cout << "maxObj: " << maxObj
-    //           << " mmaxScore: " << mmaxScore
-    //           << " maxConf: " << maxConf
-    //           << std::endl;
 }
 
 std::vector<int> YOLO_Detector::applyNMS(
@@ -203,104 +296,128 @@ void YOLO_Detector::functionTest(const cv::Mat& image) {
     }
 }
 
-std::string YOLO_Detector::generateExpressionOri(const cv::Mat& image) {
-    auto detection = detect(image);
+// std::string YOLO_Detector::generateExpression(const cv::Mat& image) {
+//     auto detection = detect(image);
 
-    std::sort(detection.begin(), detection.end(),
-              [](const Detection& a, const Detection& b) {
-        int ax = a.box.x + a.box.width / 2;
-        int bx = b.box.x + b.box.width / 2;
-        return ax < bx;
-    });
+//     std::sort(detection.begin(), detection.end(),
+//               [](const Detection& a, const Detection& b) {
+//         int ax = a.box.x + a.box.width / 2;
+//         int bx = b.box.x + b.box.width / 2;
+//         return ax < bx;
+//     });
 
-    std::string result = "";
-    for (auto det : detection) {
-        result += num_ops[det.class_id];
-    }
+//     std::string result = "";
+//     for (auto det : detection) {
+//         result += num_ops[det.class_id];
+//     }
 
-    return result;
-}
+//     return result;
+// }
+
+// std::string YOLO_Detector::generateExpression(const cv::Mat& image)
+// {
+//     auto detection = detect(image);
+
+//     // 按x排序
+//     std::sort(detection.begin(), detection.end(),
+//               [](const Detection& a, const Detection& b)
+//               {
+//                   return (a.box.x + a.box.width/2) < (b.box.x + b.box.width/2);
+//               });
+
+//     std::vector<Detection> filtered;
+
+//     const int x_threshold = 30;
+
+//     for (auto& det : detection)
+//     {
+//         if (filtered.empty())
+//         {
+//             filtered.push_back(det);
+//             continue;
+//         }
+
+//         int x = det.box.x + det.box.width/2;
+//         int lastx = filtered.back().box.x + filtered.back().box.width/2;
+
+//         if (abs(x - lastx) < x_threshold)
+//         {
+//             // 同一个字符，只保留置信度高的
+//             if (det.confidence > filtered.back().confidence)
+//                 filtered.back() = det;
+//         }
+//         else
+//         {
+//             filtered.push_back(det);
+//         }
+//     }
+
+//     std::string result;
+
+//     for (auto& det : filtered)
+//         result += num_ops[det.class_id];
+
+//     return result;
+// }
 
 std::string YOLO_Detector::generateExpression(const cv::Mat& image)
 {
-    const int target_h = input_size;     // 512
-    const int window_w = input_size;     // 512
-    const int stride   = input_size / 2; // 256
+    auto detection = detect(image);
 
-    // 1 resize height
-    float scale = (float)target_h / image.rows;
-    int new_w = int(image.cols * scale);
+    // 1 过滤非法框
+    std::vector<Detection> valid;
 
-    cv::Mat resized;
-    cv::resize(image, resized, cv::Size(new_w, target_h));
-    cv::imshow("resized", resized);
-
-    std::vector<Detection> global_detections;
-
-    // 2 sliding window
-    for (int x = 0; x < new_w; x += stride)
+    for (auto& d : detection)
     {
-        int w = std::min(window_w, new_w - x);
+        if (d.confidence < 0.5) continue;
+        if (d.box.x < 0) continue;
+        if (d.box.width < 5 || d.box.height < 5) continue;
 
-        cv::Rect roi(x, 0, w, target_h);
-        cv::Mat crop = resized(roi);
-
-        // 如果窗口不足512，padding
-        cv::Mat padded = cv::Mat::zeros(target_h, window_w, crop.type());
-        crop.copyTo(padded(cv::Rect(0,0,crop.cols,crop.rows)));
-
-        auto dets = detect(padded);
-
-        for (auto& d : dets)
-        {
-            Detection g = d;
-
-            // bbox 映射回全局坐标
-            g.box.x += x;
-
-            global_detections.push_back(g);
-        }
+        valid.push_back(d);
     }
 
-    // 3 全局 NMS
-    std::vector<cv::Rect> boxes;
-    std::vector<float> confs;
-
-    for (auto& d : global_detections)
-    {
-        boxes.push_back(d.box);
-        confs.push_back(d.confidence);
-    }
-
-    std::vector<int> indices;
-
-    cv::dnn::NMSBoxes(
-        boxes,
-        confs,
-        conf_threshold,
-        nms_threshold,
-        indices
-        );
-
-    std::vector<Detection> final_det;
-
-    for (int i : indices)
-        final_det.push_back(global_detections[i]);
-
-    // 4 排序
-    std::sort(final_det.begin(), final_det.end(),
+    // 2 按中心x排序
+    std::sort(valid.begin(), valid.end(),
               [](const Detection& a, const Detection& b)
               {
-                  int ax = a.box.x + a.box.width/2;
-                  int bx = b.box.x + b.box.width/2;
+                  int ax = a.box.x + a.box.width / 2;
+                  int bx = b.box.x + b.box.width / 2;
                   return ax < bx;
               });
 
-    // 5 生成表达式
+    // 3 x聚类
+    std::vector<Detection> filtered;
+
+    const int x_threshold = 30;
+
+    for (auto& det : valid)
+    {
+        if (filtered.empty())
+        {
+            filtered.push_back(det);
+            continue;
+        }
+
+        int x = det.box.x + det.box.width / 2;
+        int lastx = filtered.back().box.x + filtered.back().box.width / 2;
+
+        if (abs(x - lastx) < x_threshold)
+        {
+            // 同一个字符保留置信度高的
+            if (det.confidence > filtered.back().confidence)
+                filtered.back() = det;
+        }
+        else
+        {
+            filtered.push_back(det);
+        }
+    }
+
+    // 4 拼接表达式
     std::string result;
 
-    for (auto& d : final_det)
-        result += num_ops[d.class_id];
+    for (auto& det : filtered)
+        result += num_ops[det.class_id];
 
     return result;
 }
@@ -315,8 +432,8 @@ cv::Mat YOLO_Detector::letterbox(
     int h = image.rows;
 
     scale = std::min(
-        (float)input_size / w,
-        (float)input_size / h
+        (float)1280 / w,
+        (float)256 / h
         );
 
     int new_w = int(w * scale);
@@ -325,8 +442,8 @@ cv::Mat YOLO_Detector::letterbox(
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(new_w, new_h));
 
-    int pad_w = input_size - new_w;
-    int pad_h = input_size - new_h;
+    int pad_w = 1280 - new_w;
+    int pad_h = 256 - new_h;
 
     left = pad_w / 2;
     top  = pad_h / 2;

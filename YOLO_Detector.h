@@ -43,16 +43,15 @@ private:
     );
 
 public:
-    YOLO_Detector(const std::string& model_path = "models/yolo.onnx",
-                  int input_size = 512,
-                  float conf_threshold = 0.5,
-                  float nms_threshold = 0.3);
+    YOLO_Detector(const std::string& model_path = "models/yolo_improved_fixed.onnx",
+                  int input_size = 960,
+                  float conf_threshold = 0.25,
+                  float nms_threshold = 0.45);
 
     std::vector<Detection> detect(const cv::Mat& image);
 
     void basicTest();
     void functionTest(const cv::Mat& image);
-    std::string generateExpressionOri(const cv::Mat& image);
     std::string generateExpression(const cv::Mat& image);
 };
 
