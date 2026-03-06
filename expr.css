@@ -1,0 +1,35 @@
+/* ===== LineEdit Bold Version ===== */
+
+QLineEdit {
+    background-color: #1E2230;
+    border: 2px solid #3C4C7A;
+    border-radius: 14px;
+    padding: 8px 14px;
+    color: #EAF0FF;
+    font-size: 15px;
+}
+
+/* hover */
+QLineEdit:hover {
+    border: 2px solid #6C8CFF;
+}
+
+/* focus 强调 */
+QLineEdit:focus {
+    border: 2px solid #8F6BFF;
+    background-color: #24293A;
+    selection-background-color: #7F4DFF;
+}
+
+QPushButton {
+    background-color: #1E2230;
+    border: 2px solid #FF5E87;
+    border-radius: 18px;
+    padding: 12px 20px;
+    color: #FF8CA8;
+}
+
+QPushButton:hover {
+    background-color: #2A2436;
+    border: 2px solid #FF7AA3;
+}

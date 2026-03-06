@@ -4,5 +4,6 @@
     </qresource>
     <qresource lang="css" prefix="/style">
         <file>basic.css</file>
+        <file>expr.css</file>
     </qresource>
 </RCC>

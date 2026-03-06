@@ -4,13 +4,17 @@
 #include <QMouseEvent>
 
 #include <opencv2/opencv.hpp>
+#include "Common.h"
 
-DrawBoard::DrawBoard(QWidget *parent)
-    : QWidget(parent),
-    canvas(280, 280, QImage::Format_Grayscale8) {
+DrawBoard::DrawBoard(QWidget *parent, int width, int height) : QWidget(parent) {
+    this->width = width;
+    this->height = height;
+    canvas = QImage(width, height, QImage::Format_Grayscale8);
     canvas.fill(Qt::black);
-    setFixedSize(280, 280);
+    setFixedSize(width, height);
+
     penWidth = 25;
+    penColor = Qt::white;
 
     model = {
         {"MLP", "mlp.onnx"},
@@ -21,8 +25,16 @@ DrawBoard::DrawBoard(QWidget *parent)
     net = cv::dnn::readNetFromONNX("models/resnet.onnx");
 }
 
-void DrawBoard::clear() {
-    canvas.fill(Qt::black);
+void DrawBoard::adjustSize(int width, int height) {
+    this->width = width;
+    this->height = height;
+    canvas = QImage(width, height, QImage::Format_Grayscale8);
+    canvas.fill(Qt::white);
+    setFixedSize(width, height);
+}
+
+void DrawBoard::clear(Qt::GlobalColor color) {
+    canvas.fill(color);
     update();
 }
 
@@ -40,7 +52,7 @@ void DrawBoard::mouseMoveEvent(QMouseEvent *e) {
     if (!(e->buttons() & Qt::LeftButton)) return;
 
     QPainter p(&canvas);
-    p.setPen(QPen(Qt::white, penWidth, Qt::SolidLine, Qt::RoundCap));
+    p.setPen(QPen(penColor, penWidth, Qt::SolidLine, Qt::RoundCap));
     p.drawLine(lastPos, e->pos());
     lastPos = e->pos();
     update();
@@ -50,6 +62,9 @@ void DrawBoard::mouseMoveEvent(QMouseEvent *e) {
 
 void DrawBoard::setPenWidth(int value) {
     penWidth = value;
+}
+void DrawBoard::setPenColor(Qt::GlobalColor color) {
+    penColor = color;
 }
 
 // 粗暴缩放：正确率不高
@@ -228,4 +243,8 @@ void DrawBoard::setModel(QString modelName) {
     // qDebug() << model[modelName];
     // qDebug() << path;
     net = cv::dnn::readNetFromONNX(path);
+}
+
+cv::Mat DrawBoard::getCanvasMat() {
+    return QImageToMat(canvas);
 }
