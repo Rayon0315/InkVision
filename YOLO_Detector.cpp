@@ -237,95 +237,52 @@ void YOLO_Detector::decode(const cv::Mat& output,
     int kept_no_obj = 0;
 
     for (int i = 0; i < rows; i++) {
+
         float cx = data[0];
         float cy = data[1];
-        float w = data[2];
-        float h = data[3];
+        float w  = data[2];
+        float h  = data[3];
 
+        // 无效框过滤
         if (w <= 1.0f || h <= 1.0f) {
             data += dimensions;
             continue;
         }
 
-        if (dimensions >= 6) {
-            int num_classes_obj = dimensions - 5;
-            float obj = data[4];
+        // objectness
+        float obj = data[4];
 
-            if (num_classes_obj > 0) {
-                cv::Mat scores_obj(1, num_classes_obj, CV_32FC1, data + 5);
-
-                cv::Point class_id_point_obj;
-                double max_score_obj = 0.0;
-                cv::minMaxLoc(scores_obj, nullptr, &max_score_obj, nullptr, &class_id_point_obj);
-
-                float conf_obj = obj * static_cast<float>(max_score_obj);
-
-                if (obj > 0.01f && conf_obj > conf_threshold) {
-                    int box_left = static_cast<int>(std::round(cx - w / 2.0f));
-                    int box_top = static_cast<int>(std::round(cy - h / 2.0f));
-                    int box_width = static_cast<int>(std::round(w));
-                    int box_height = static_cast<int>(std::round(h));
-
-                    boxes.emplace_back(box_left, box_top, box_width, box_height);
-                    confidences.push_back(conf_obj);
-                    class_ids.push_back(class_id_point_obj.x);
-                    kept_with_obj++;
-                }
-            }
-        }
-
-        data += dimensions;
-    }
-
-    // std::cout << "kept_with_obj = " << kept_with_obj << std::endl;
-
-    if (!boxes.empty()) {
-        return;
-    }
-
-    data = reinterpret_cast<float*>(output.data);
-
-    for (int i = 0; i < rows; i++) {
-        float cx = data[0];
-        float cy = data[1];
-        float w = data[2];
-        float h = data[3];
-
-        if (w <= 1.0f || h <= 1.0f) {
+        // 关键过滤（非常重要）
+        if (obj < 0.25f) {
             data += dimensions;
             continue;
         }
 
-        int num_classes_no_obj = dimensions - 4;
-        if (num_classes_no_obj <= 0) {
-            data += dimensions;
-            continue;
-        }
+        int num_classes = dimensions - 5;
 
-        cv::Mat scores_no_obj(1, num_classes_no_obj, CV_32FC1, data + 4);
+        cv::Mat scores(1, num_classes, CV_32FC1, data + 5);
 
-        cv::Point class_id_point_no_obj;
-        double max_score_no_obj = 0.0;
-        cv::minMaxLoc(scores_no_obj, nullptr, &max_score_no_obj, nullptr, &class_id_point_no_obj);
+        cv::Point class_id_point;
+        double max_class_score;
 
-        float conf_no_obj = static_cast<float>(max_score_no_obj);
+        cv::minMaxLoc(scores, nullptr, &max_class_score, nullptr, &class_id_point);
 
-        if (conf_no_obj > conf_threshold) {
-            int box_left = static_cast<int>(std::round(cx - w / 2.0f));
-            int box_top = static_cast<int>(std::round(cy - h / 2.0f));
-            int box_width = static_cast<int>(std::round(w));
+        float conf = obj * static_cast<float>(max_class_score);
+
+        if (conf > conf_threshold) {
+
+            int box_left   = static_cast<int>(std::round(cx - w / 2.0f));
+            int box_top    = static_cast<int>(std::round(cy - h / 2.0f));
+            int box_width  = static_cast<int>(std::round(w));
             int box_height = static_cast<int>(std::round(h));
 
             boxes.emplace_back(box_left, box_top, box_width, box_height);
-            confidences.push_back(conf_no_obj);
-            class_ids.push_back(class_id_point_no_obj.x);
-            kept_no_obj++;
+            confidences.push_back(conf);
+            class_ids.push_back(class_id_point.x);
         }
 
         data += dimensions;
     }
-
-    // std::cout << "kept_no_obj = " << kept_no_obj << std::endl;
 }
 
 std::vector<int> YOLO_Detector::applyNMS(const std::vector<cv::Rect>& boxes,

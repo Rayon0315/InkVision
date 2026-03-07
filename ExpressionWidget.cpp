@@ -33,7 +33,34 @@ ExpressionWidget::ExpressionWidget(QWidget *parent)
 
 QString ExpressionWidget::detect() {
     cv::Mat img = ui->Board->getCanvasMat();
-    std::string result = detector.generateExpression(img);
+
+
+    int target_width = 320, target_height = 128;
+    cv::Mat resized;
+    cv::resize(img, resized, cv::Size(target_width, target_height));
+
+    cv::Mat padded;
+
+    int target = 960;
+
+    int top = (target - img.rows) / 2;
+    int bottom = target - img.rows - top;
+
+    int left = (target - img.cols) / 2;
+    int right = target - img.cols - left;
+
+    cv::copyMakeBorder(
+        resized,
+        padded,
+        top,
+        bottom,
+        left,
+        right,
+        cv::BORDER_CONSTANT,
+        cv::Scalar(255,255,255)   // 白色
+        );
+
+    std::string result = detector.generateExpression(padded);
     return QString::fromStdString(result);
 }
 

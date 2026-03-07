@@ -36,11 +36,11 @@ private:
                               const std::vector<float>& confidences);
 
 public:
-    YOLO_Detector(const std::string& model_path = "models/yolo/yolo_256_1280.onnx",
-                  int input_height = 256,
-                  int input_width = 1280,
-                  float conf_threshold = 0.25f,
-                  float nms_threshold = 0.45f);
+    YOLO_Detector(const std::string& model_path = "models/yolo/yolo_960.onnx",
+                  int input_height = 960,
+                  int input_width = 960,
+                  float conf_threshold = 0.45f,
+                  float nms_threshold = 0.30f);
 
     std::vector<Detection> detect(const cv::Mat& image);
 
