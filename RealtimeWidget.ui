@@ -22,6 +22,30 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QComboBox" name="BoxModelChoice">
+         <item>
+          <property name="text">
+           <string>MLP</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SimpleCNN</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>LeNet-5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ResNet</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
         <widget class="QLineEdit" name="editPred">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">

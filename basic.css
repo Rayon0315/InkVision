@@ -62,3 +62,26 @@ QPushButton#btnClear:hover {
     background-color: #2A2436;
     border: 2px solid #FF7AA3;
 }
+
+QComboBox {
+    background-color: #1b2433;
+    border: 1px solid #3a4a5f;
+    border-radius: 6px;
+    padding: 6px 28px 6px 10px;
+    color: white;
+}
+
+QComboBox:hover {
+    border: 1px solid #4f6fa3;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 24px;
+}
+
+QComboBox::down-arrow {
+    image: url(:/icons/arrow_down.svg);
+    width: 20px;
+    height: 20px;
+}

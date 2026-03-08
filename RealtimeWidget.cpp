@@ -41,6 +41,7 @@ void RealtimeWidget::predictDigit() {
     // cv::Mat out = net.forward();
     // cv::Mat prob = softmax(out);
 
+    ui->Board->setModel(ui->BoxModelChoice->currentText());
     cv::Mat prob = ui->Board->predict();
 
     ui->Chart->updateProb(prob);

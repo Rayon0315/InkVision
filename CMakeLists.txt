@@ -58,7 +58,7 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         MyMath.h
         MyMath.cpp
         NavButton.h NavButton.cpp
-        resources.qrc
+        src.qrc
         ChartWidget.h ChartWidget.cpp ChartWidget.ui
         YOLO_Detector.h YOLO_Detector.cpp
         ExpressionWidget.h ExpressionWidget.cpp ExpressionWidget.ui

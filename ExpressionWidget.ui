@@ -19,7 +19,22 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
+   <item>
+    <widget class="QLineEdit" name="editTitle">
+     <property name="font">
+      <font>
+       <family>等线</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>输入手写表达式（如&quot;1+1&quot;）</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="DrawBoard" name="Board" native="true"/>
    </item>
@@ -70,7 +85,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>DETECT</string>
+        <string>检测</string>
        </property>
       </widget>
      </item>
@@ -83,7 +98,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>CLEAR</string>
+        <string>清除</string>
        </property>
       </widget>
      </item>
