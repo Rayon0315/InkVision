@@ -196,7 +196,7 @@
           </font>
          </property>
          <property name="text">
-          <string>PEN SIZE(10 ~ 100)</string>
+          <string>PEN SIZE(0 ~ 100)</string>
          </property>
          <property name="textFormat">
           <enum>Qt::TextFormat::PlainText</enum>

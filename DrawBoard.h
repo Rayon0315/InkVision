@@ -13,8 +13,11 @@ class DrawBoard : public QWidget {
 private:
     QImage canvas;
     QPoint lastPos;
+
     int penWidth;
-    Qt::GlobalColor penColor;
+    QColor penColor;
+    QColor backgroundColor;
+
     cv::dnn::Net net;
     QMap<QString, QString> model;
     int width, height;
@@ -28,7 +31,7 @@ public:
 
     void adjustSize(int width, int height);
 
-    void clear(Qt::GlobalColor color = Qt::black);
+    void clear();
     std::vector<float> getNormalizedSize() const;
     std::vector<float> getNormalizedSizeMid() const;
     std::vector<float> getNormalizedSizeOri() const;
@@ -38,7 +41,8 @@ public:
     void mouseMoveEvent(QMouseEvent *) override;
 
     void setPenWidth(int value);
-    void setPenColor(Qt::GlobalColor color = Qt::white);
+    void setPenColor(QColor color = Qt::white);
+    void setBackgroundColor(QColor color = Qt::black);
 
     void setModel(QString modelName);
     cv::Mat predict();

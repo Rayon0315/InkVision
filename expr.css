@@ -21,6 +21,8 @@ QLineEdit:focus {
     selection-background-color: #7F4DFF;
 }
 
+/* ===== 按钮 ===== */
+
 QPushButton {
     background-color: #1E2230;
     border: 2px solid #FF5E87;

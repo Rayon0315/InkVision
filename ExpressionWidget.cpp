@@ -12,6 +12,7 @@ ExpressionWidget::ExpressionWidget(QWidget *parent)
     ui->Board->adjustSize(640, 256);
     ui->Board->setPenColor(Qt::black);
     ui->Board->setPenWidth(15);
+    ui->Board->setBackgroundColor(Qt::white);
 
     connect(ui->btnDetect, &QPushButton::clicked, this, [this]() {
         QString str = detect();
@@ -78,7 +79,7 @@ QString ExpressionWidget::calculate(QString str) {
 }
 
 void ExpressionWidget::pageClear() {
-    ui->Board->clear(Qt::white);
+    ui->Board->clear();
     ui->editExpr->clear();
     ui->editResult->clear();
 }

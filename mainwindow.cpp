@@ -28,6 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
         ui->pageExpr->pageClear();
         ui->stackedWidget->setCurrentWidget(ui->pageExpr);
     });
+    connect(ui->btnCustomized, &QPushButton::clicked, this, [this]() {
+        ui->pageCustomized->pageClear();
+        ui->stackedWidget->setCurrentWidget(ui->pageCustomized);
+    });
 
     QPixmap pix(":/images/logo.jpg");
     ui->icon->setPixmap(pix);

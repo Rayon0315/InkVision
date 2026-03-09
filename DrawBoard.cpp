@@ -9,8 +9,10 @@
 DrawBoard::DrawBoard(QWidget *parent, int width, int height) : QWidget(parent) {
     this->width = width;
     this->height = height;
-    canvas = QImage(width, height, QImage::Format_Grayscale8);
-    canvas.fill(Qt::black);
+
+    backgroundColor = Qt::black;
+    canvas = QImage(width, height, QImage::Format_ARGB32);
+    canvas.fill(backgroundColor);
     setFixedSize(width, height);
 
     penWidth = 25;
@@ -33,8 +35,8 @@ void DrawBoard::adjustSize(int width, int height) {
     setFixedSize(width, height);
 }
 
-void DrawBoard::clear(Qt::GlobalColor color) {
-    canvas.fill(color);
+void DrawBoard::clear() {
+    canvas.fill(backgroundColor);
     update();
 }
 
@@ -63,8 +65,11 @@ void DrawBoard::mouseMoveEvent(QMouseEvent *e) {
 void DrawBoard::setPenWidth(int value) {
     penWidth = value;
 }
-void DrawBoard::setPenColor(Qt::GlobalColor color) {
+void DrawBoard::setPenColor(QColor color) {
     penColor = color;
+}
+void DrawBoard::setBackgroundColor(QColor color) {
+    backgroundColor = color;
 }
 
 // 粗暴缩放：正确率不高
@@ -86,9 +91,10 @@ std::vector<float> DrawBoard::getNormalizedSizeOri() const {
 // 利用opencv进行调整，但是缩放策略有问题
 std::vector<float> DrawBoard::getNormalizedSizeMid() const {
     // 用cv::Mat处理数据
-    cv::Mat img(canvas.height(), canvas.width(), CV_8UC1,
-                const_cast<uchar*>(canvas.bits()),
-                canvas.bytesPerLine());
+    QImage gray = canvas.convertToFormat(QImage::Format_Grayscale8);
+    cv::Mat img(gray.height(), gray.width(), CV_8UC1,
+                const_cast<uchar*>(gray.bits()),
+                gray.bytesPerLine());
 
     // 防止浅拷贝
     img = img.clone();
@@ -133,13 +139,26 @@ std::vector<float> DrawBoard::getNormalizedSizeMid() const {
 std::vector<float> DrawBoard::getNormalizedSize() const {
 
     // === 1. 将 QImage 转为 cv::Mat ===
-    cv::Mat img(canvas.height(),
-                canvas.width(),
-                CV_8UC1,
-                const_cast<uchar*>(canvas.bits()),
-                canvas.bytesPerLine());
+    QImage binary(canvas.width(), canvas.height(), QImage::Format_Grayscale8);
 
-    img = img.clone();  // 防止浅拷贝问题
+    for (int y = 0; y < canvas.height(); ++y) {
+        const QRgb* src = reinterpret_cast<const QRgb*>(canvas.scanLine(y));
+        uchar* dst = binary.scanLine(y);
+
+        for (int x = 0; x < canvas.width(); ++x) {
+            QColor c(src[x]);
+
+            dst[x] = (c == penColor) ? 255 : 0;
+        }
+    }
+
+    cv::Mat img(binary.height(),
+                binary.width(),
+                CV_8UC1,
+                binary.bits(),
+                binary.bytesPerLine());
+
+    img = img.clone();
 
     // === 2. 二值化 ===
     cv::threshold(img, img, 10, 255, cv::THRESH_BINARY);

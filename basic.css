@@ -63,6 +63,8 @@ QPushButton#btnClear:hover {
     border: 2px solid #FF7AA3;
 }
 
+/* ===== 选择 ===== */
+
 QComboBox {
     background-color: #1b2433;
     border: 1px solid #3a4a5f;
@@ -84,4 +86,59 @@ QComboBox::down-arrow {
     image: url(:/icons/arrow_down.svg);
     width: 20px;
     height: 20px;
+}
+
+/* ===== colorChoiceWidget ===== */
+
+/* 外层卡片 */
+colorChoiceWidget {
+    background-color: #1f2a3a;
+    border: 1px solid #4a6fa5;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* hover 时卡片高亮 */
+colorChoiceWidget:hover {
+    border: 1px solid #6ea0ff;
+}
+
+/* ComboBox 本体 */
+colorChoiceWidget QComboBox {
+    background: transparent;
+    border: 1px solid #cfcdc4;
+    color: #e6eef7;
+    font-size: 14px;
+    padding-left: 6px;
+    padding-right: 24px;   /* 给箭头留空间 */
+}
+
+colorChoiceWidget QComboBox::hover {
+    border: 1px solid #ffe23d;
+}
+
+
+/* 下拉按钮区域 */
+colorChoiceWidget QComboBox::drop-down {
+    border: none;
+    width: 24px;
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+}
+
+/* 使用你已有的箭头图标 */
+colorChoiceWidget QComboBox::down-arrow {
+    image: url(:/icons/arrow_down.svg);
+    width: 20px;
+    height: 20px;
+}
+
+/* 下拉列表 */
+colorChoiceWidget QComboBox QAbstractItemView {
+    background-color: #1b2433;
+    border: 1px solid #efecdc;
+    border-radius: 6px;
+    selection-background-color: #355b8c;
+    selection-color: white;
+    outline: none;
 }

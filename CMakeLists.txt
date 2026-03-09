@@ -65,6 +65,8 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         Common.h
         Common.cpp
         Calculator/BigDecimal.cpp Calculator/BigDecimal.h Calculator/ExpressionEvaluator.cpp Calculator/ExpressionEvaluator.h Calculator/ExpressionValidator.cpp Calculator/ExpressionValidator.h Calculator/OperatorTable.cpp Calculator/OperatorTable.h Calculator/RpnEvaluator.cpp Calculator/RpnEvaluator.h Calculator/ShuntingYard.cpp Calculator/ShuntingYard.h Calculator/Token.h Calculator/Tokenizer.cpp Calculator/Tokenizer.h Calculator/Validator.cpp Calculator/Validator.h
+        CustomizedWidget.h CustomizedWidget.cpp CustomizedWidget.ui
+        colorChoiceWidget.h colorChoiceWidget.cpp colorChoiceWidget.ui
 
     )
     # qt_add_resources(InkVision "styles"

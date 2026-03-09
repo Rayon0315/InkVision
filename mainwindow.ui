@@ -44,6 +44,19 @@
        </widget>
       </item>
       <item>
+       <widget class="NavButton" name="btnCustomized">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Customized</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="NavButton" name="btnExpr">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -93,6 +106,7 @@
       </widget>
       <widget class="RealtimeWidget" name="pageRealtime"/>
       <widget class="ExpressionWidget" name="pageExpr"/>
+      <widget class="CustomizedWidget" name="pageCustomized"/>
      </widget>
     </item>
    </layout>
@@ -131,6 +145,12 @@
    <class>ExpressionWidget</class>
    <extends>QWidget</extends>
    <header>ExpressionWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CustomizedWidget</class>
+   <extends>QWidget</extends>
+   <header>CustomizedWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
