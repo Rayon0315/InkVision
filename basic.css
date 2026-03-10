@@ -142,3 +142,25 @@ colorChoiceWidget QComboBox QAbstractItemView {
     selection-color: white;
     outline: none;
 }
+
+/***** btnEraser *****/
+QPushButton#btnEraser {
+    background-color: #1f2a3a;
+    color: #e6eef7;
+    border: 1px solid #4a6fa5;
+    border-radius: 8px;
+    padding: 6px 10px;
+}
+
+QPushButton#btnEraser:hover {
+    background-color: #2b3c55;
+}
+
+QPushButton#btnEraser:checked {
+    background-color: #ce1cae;
+    color: #1a1a1a;
+}
+
+QPushButton#btnEraser:pressed {
+    background-color: #a52c8f;
+}

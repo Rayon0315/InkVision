@@ -8,5 +8,7 @@
     </qresource>
     <qresource prefix="/icons">
         <file>arrow_down.svg</file>
+        <file>eraser.svg</file>
+        <file>pencil.svg</file>
     </qresource>
 </RCC>

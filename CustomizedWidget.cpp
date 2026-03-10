@@ -16,6 +16,23 @@ CustomizedWidget::CustomizedWidget(QWidget *parent)
         qDebug() << "style.css 打不开";
     }
 
+    ui->btnEraser->setCheckable(true);
+    ui->btnEraser->setIconSize(QSize(22, 22));
+    ui->btnEraser->setFixedHeight(36);
+    ui->btnEraser->setIcon(QIcon(":/icons/pencil.svg"));
+    ui->btnEraser->setText("画笔");
+    connect(ui->btnEraser, &QPushButton::toggled, this, [this](bool checked) {
+        if (checked) {
+            ui->btnEraser->setIcon(QIcon(":/icons/eraser.svg"));
+            ui->btnEraser->setText("橡皮");
+            ui->Board->toEraser();
+        } else {
+            ui->btnEraser->setIcon(QIcon(":/icons/pencil.svg"));
+            ui->btnEraser->setText("画笔");
+            ui->Board->fromEraser();
+        }
+    });
+
     ui->colorBackground->setLabelText("画布颜色");
     ui->colorBackground->setBoxChoice("Black");
 

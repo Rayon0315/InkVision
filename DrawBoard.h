@@ -17,6 +17,10 @@ private:
     int penWidth;
     QColor penColor;
     QColor backgroundColor;
+    enum DrawMode {
+        PEN,
+        ERASER
+    } mode;
 
     cv::dnn::Net net;
     QMap<QString, QString> model;
@@ -48,6 +52,10 @@ public:
     cv::Mat predict();
 
     cv::Mat getCanvasMat();
+
+
+    void toEraser();
+    void fromEraser();
 
 signals:
     void mouseMoved(const QPoint& start, const QPoint& end); // 信号函数，供实时调用

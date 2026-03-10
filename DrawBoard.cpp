@@ -17,6 +17,7 @@ DrawBoard::DrawBoard(QWidget *parent, int width, int height) : QWidget(parent) {
 
     penWidth = 25;
     penColor = Qt::white;
+    mode = PEN;
 
     model = {
         {"MLP", "mlp.onnx"},
@@ -54,7 +55,8 @@ void DrawBoard::mouseMoveEvent(QMouseEvent *e) {
     if (!(e->buttons() & Qt::LeftButton)) return;
 
     QPainter p(&canvas);
-    p.setPen(QPen(penColor, penWidth, Qt::SolidLine, Qt::RoundCap));
+    QColor color = (mode == PEN) ? penColor : backgroundColor;
+    p.setPen(QPen(color, penWidth, Qt::SolidLine, Qt::RoundCap));
     p.drawLine(lastPos, e->pos());
     lastPos = e->pos();
     update();
@@ -70,6 +72,13 @@ void DrawBoard::setPenColor(QColor color) {
 }
 void DrawBoard::setBackgroundColor(QColor color) {
     backgroundColor = color;
+}
+
+void DrawBoard::toEraser() {
+    mode = ERASER;
+}
+void DrawBoard::fromEraser() {
+    mode = PEN;
 }
 
 // 粗暴缩放：正确率不高
