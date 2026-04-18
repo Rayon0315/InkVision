@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <opencv2/opencv.hpp>
+#include <Common.h>
 
 ExpressionWidget::ExpressionWidget(QWidget *parent)
     : QWidget(parent)
@@ -18,10 +19,26 @@ ExpressionWidget::ExpressionWidget(QWidget *parent)
         QString str = detect();
         ui->editExpr->setText("Expression: " + str);
         ui->editResult->setText(calculate(str));
+
+        // cv::imshow("show", QImageToMat(ui->Board->exportProcessedImage()));
     });
     connect(ui->btnClear, &QPushButton::clicked, this, [this]() {
         pageClear();
     });
+
+    m_expressionRecognitionClient = new ExpressionRecognitionClient(this);
+
+    m_expressionRecognitionClient->setBaseUrl("http://127.0.0.1:8000");
+    m_expressionRecognitionClient->setRequestTimeout(15000);
+
+    connect(ui->btnAi, &QPushButton::clicked,
+            this, &ExpressionWidget::onRecognizeExpressionClicked);
+
+    connect(m_expressionRecognitionClient, &ExpressionRecognitionClient::recognizeSucceeded,
+            this, &ExpressionWidget::handleRecognitionSuccess);
+
+    connect(m_expressionRecognitionClient, &ExpressionRecognitionClient::recognizeFailed,
+            this, &ExpressionWidget::handleRecognitionFailure);
 
     QFile file(":/style/expr.css");
     if (file.open(QFile::ReadOnly)) {
@@ -82,8 +99,47 @@ void ExpressionWidget::pageClear() {
     ui->Board->clear();
     ui->editExpr->clear();
     ui->editResult->clear();
+    ui->editAi->clear();
+    ui->editStatement->clear();
 }
 
 ExpressionWidget::~ExpressionWidget() {
     delete ui;
+}
+
+void ExpressionWidget::onRecognizeExpressionClicked() {
+    QImage image = ui->Board->exportProcessedImage();
+
+    if (image.isNull()) {
+        ui->editStatement->setText("没有可识别内容");
+        return;
+    }
+
+    ui->btnAi->setEnabled(false);
+    ui->editStatement->setText("正在请求服务器...");
+    ui->editAi->clear();
+
+    m_expressionRecognitionClient->recognizeExpression(image);
+}
+
+void ExpressionWidget::handleRecognitionSuccess(const ExpressionRecognitionResult &result) {
+    ui->btnAi->setEnabled(true);
+    ui->editStatement->setText("识别成功");
+
+    QString displayText;
+    if (!result.expression.isEmpty() && !result.result.isEmpty()) {
+        displayText = result.expression + " = " + result.result;
+    } else if (!result.expression.isEmpty()) {
+        displayText = "表达式：" + result.expression;
+    } else {
+        displayText = "返回内容为空";
+    }
+
+    ui->editAi->setText(displayText);
+}
+
+void ExpressionWidget::handleRecognitionFailure(const QString &errorMessage) {
+    ui->btnAi->setEnabled(true);
+    ui->editStatement->setText("识别失败");
+    ui->editAi->setText(errorMessage);
 }

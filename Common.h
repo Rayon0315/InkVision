@@ -13,4 +13,6 @@ void initColorCombo(QComboBox* box);
 
 Qt::GlobalColor toGlobalColor(const QColor& c);
 
+void initModelCombo(QComboBox *box);
+
 #endif // COMMON_H

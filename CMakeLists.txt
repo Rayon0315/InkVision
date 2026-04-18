@@ -23,6 +23,7 @@ set(CMAKE_AUTORCC ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Charts)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Charts Network)
 
 # ============================================================
 # OpenCV
@@ -67,6 +68,9 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         Calculator/BigDecimal.cpp Calculator/BigDecimal.h Calculator/ExpressionEvaluator.cpp Calculator/ExpressionEvaluator.h Calculator/ExpressionValidator.cpp Calculator/ExpressionValidator.h Calculator/OperatorTable.cpp Calculator/OperatorTable.h Calculator/RpnEvaluator.cpp Calculator/RpnEvaluator.h Calculator/ShuntingYard.cpp Calculator/ShuntingYard.h Calculator/Token.h Calculator/Tokenizer.cpp Calculator/Tokenizer.h Calculator/Validator.cpp Calculator/Validator.h
         CustomizedWidget.h CustomizedWidget.cpp CustomizedWidget.ui
         colorChoiceWidget.h colorChoiceWidget.cpp colorChoiceWidget.ui
+        Web/ExpressionRecognitionResult.h
+        Web/ExpressionRecognitionClient.h
+        Web/ExpressionRecognitionClient.cpp
 
     )
     # qt_add_resources(InkVision "styles"
@@ -88,8 +92,9 @@ endif()
 
 target_link_libraries(InkVision
     PRIVATE
-        Qt${QT_VERSION_MAJOR}::Widgets
-        Qt${QT_VERSION_MAJOR}::Charts
+        Qt6::Widgets
+        Qt6::Charts
+        Qt6::Network
         ${OpenCV_LIBS}
 )
 

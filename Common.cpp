@@ -43,3 +43,9 @@ Qt::GlobalColor toGlobalColor(const QColor& c) {
 
     return Qt::black; // fallback
 }
+
+void initModelCombo(QComboBox *box) {
+    box->addItem("MLP");
+    box->addItem("LeNet-5");
+    box->addItem("ResNet");
+}

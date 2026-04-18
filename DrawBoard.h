@@ -57,6 +57,8 @@ public:
     void toEraser();
     void fromEraser();
 
+    QImage exportProcessedImage();
+
 signals:
     void mouseMoved(const QPoint& start, const QPoint& end); // 信号函数，供实时调用
 };

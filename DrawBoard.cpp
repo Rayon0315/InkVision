@@ -276,3 +276,7 @@ void DrawBoard::setModel(QString modelName) {
 cv::Mat DrawBoard::getCanvasMat() {
     return QImageToMat(canvas);
 }
+
+QImage DrawBoard::exportProcessedImage() {
+    return canvas.copy();
+}

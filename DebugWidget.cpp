@@ -1,6 +1,7 @@
 #include "DebugWidget.h"
 #include "ui_DebugWidget.h"
 #include <QFile>
+#include "Common.h"
 
 DebugWidget::DebugWidget(QWidget *parent)
     : QWidget(parent)
@@ -22,6 +23,8 @@ DebugWidget::DebugWidget(QWidget *parent)
     } else {
         qDebug() << "style.css 打不开";
     }
+
+    initModelCombo(ui->BoxModelChoice);
 }
 
 void DebugWidget::on_btnPred_clicked() {

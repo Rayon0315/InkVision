@@ -126,7 +126,6 @@ colorChoiceWidget QComboBox::drop-down {
     subcontrol-position: top right;
 }
 
-/* 使用你已有的箭头图标 */
 colorChoiceWidget QComboBox::down-arrow {
     image: url(:/icons/arrow_down.svg);
     width: 20px;

@@ -3,6 +3,8 @@
 
 #include <QFile>
 
+#include "common.h"
+
 CustomizedWidget::CustomizedWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CustomizedWidget) {
@@ -60,6 +62,8 @@ CustomizedWidget::CustomizedWidget(QWidget *parent)
     connect(ui->slidePenWidth, &QSlider::valueChanged, this, [this](int value) {
         ui->Board->setPenWidth(value);
     });
+
+    initModelCombo(ui->BoxModelChoice);
 }
 
 void CustomizedWidget::pageClear() {

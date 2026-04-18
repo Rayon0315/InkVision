@@ -1,6 +1,7 @@
 #include "RealtimeWidget.h"
 #include "ui_RealtimeWidget.h"
 #include <QFile>
+#include "Common.h"
 
 RealtimeWidget::RealtimeWidget(QWidget *parent)
     : QWidget(parent)
@@ -21,6 +22,8 @@ RealtimeWidget::RealtimeWidget(QWidget *parent)
     } else {
         qDebug() << "style.css 打不开";
     }
+
+    initModelCombo(ui->BoxModelChoice);
 }
 
 void RealtimeWidget::pageClear() {

@@ -35,3 +35,58 @@ QPushButton:hover {
     background-color: #2A2436;
     border: 2px solid #FF7AA3;
 }
+
+/* ===== editAi：AI 输入框 ===== */
+QLineEdit#editAi,
+QLineEdit#editStatement {
+    background-color: #0F2A2A;
+    border: 2px solid #00CFC8;
+    border-radius: 14px;
+    padding: 8px 14px;
+    color: #D9FFFB;
+    font-size: 15px;
+}
+
+QLineEdit#editAi:hover,
+QLineEdit#editStatement:hover {
+    background-color: #123333;
+    border: 2px solid #38F5E9;
+}
+
+QLineEdit#editAi:focus,
+QLineEdit#editStatement:focus {
+    background-color: #163B3B;
+    border: 2px solid #7CFFB2;
+    color: #F2FFFD;
+    selection-background-color: #00E6D8;
+}
+
+
+/* ===== btnAi：AI 按钮 ===== */
+QPushButton#btnAi {
+    background-color: #0E2525;
+    border: 2px solid #19F5D1;
+    border-radius: 18px;
+    padding: 12px 20px;
+    color: #9CFFF1;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+QPushButton#btnAi:hover {
+    background-color: #143131;
+    border: 2px solid #67FFE7;
+    color: #DFFFFA;
+}
+
+QPushButton#btnAi:pressed {
+    background-color: #0A1B1B;
+    border: 2px solid #00D9B8;
+    color: #EFFFFC;
+}
+
+QPushButton#btnAi:disabled {
+    background-color: #1A1F22;
+    border: 2px solid #435055;
+    color: #708087;
+}
