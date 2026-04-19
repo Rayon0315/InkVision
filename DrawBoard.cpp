@@ -25,7 +25,9 @@ DrawBoard::DrawBoard(QWidget *parent, int width, int height) : QWidget(parent) {
         {"MLP", "mlp.onnx"},
         {"SimpleCNN", "cnn.onnx"},
         {"LeNet-5", "lenet5.onnx"},
-        {"ResNet", "resnet.onnx"}
+        {"ResNet", "resnet.onnx"},
+        {"VGG", "vgg.onnx"},
+        {"MobileNet", "mobilenet.onnx"}
     };
     net = cv::dnn::readNetFromONNX("models/resnet.onnx");
 }
