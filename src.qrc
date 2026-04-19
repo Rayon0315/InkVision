@@ -5,6 +5,7 @@
     <qresource lang="css" prefix="/style">
         <file>basic.css</file>
         <file>expr.css</file>
+        <file>feedback.css</file>
     </qresource>
     <qresource prefix="/icons">
         <file>arrow_down.svg</file>

@@ -20,7 +20,7 @@ RealtimeWidget::RealtimeWidget(QWidget *parent)
         QString style = file.readAll();
         this->setStyleSheet(style);
     } else {
-        qDebug() << "style.css 打不开";
+        qDebug() << "basic.css 打不开";
     }
 
     initModelCombo(ui->BoxModelChoice);

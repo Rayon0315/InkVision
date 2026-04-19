@@ -2,6 +2,7 @@
 #include "ui_DebugWidget.h"
 #include <QFile>
 #include "Common.h"
+#include "DebugData.h"
 
 DebugWidget::DebugWidget(QWidget *parent)
     : QWidget(parent)
@@ -16,12 +17,22 @@ DebugWidget::DebugWidget(QWidget *parent)
         ui->Board->setPenWidth(value);
     });
 
+    connect(ui->btnFdbk, &QPushButton::clicked, this, [this]() {
+        DebugData data;
+        data.canvas = ui->Board->getCanvas();
+        data.model = ui->BoxModelChoice->currentText();
+        data.predictResult = ui->editPred->text();
+        data.confidence = ui->editConf->text();
+
+        emit btnFdbkPushed(data);
+    });
+
     QFile file(":/style/basic.css");
     if (file.open(QFile::ReadOnly)) {
         QString style = file.readAll();
         this->setStyleSheet(style);
     } else {
-        qDebug() << "style.css 打不开";
+        qDebug() << "basic.css 打不开";
     }
 
     initModelCombo(ui->BoxModelChoice);

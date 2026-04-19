@@ -50,7 +50,8 @@ QPushButton#btnPred:pressed {
 
 /* ===== 次按钮 ===== */
 
-QPushButton#btnClear {
+QPushButton#btnClear,
+QPushButton#btnFdbk {
     background-color: #1E2230;
     border: 2px solid #FF5E87;
     border-radius: 18px;
@@ -58,7 +59,8 @@ QPushButton#btnClear {
     color: #FF8CA8;
 }
 
-QPushButton#btnClear:hover {
+QPushButton#btnClear:hover,
+QPushButton#btnFdbk:hover {
     background-color: #2A2436;
     border: 2px solid #FF7AA3;
 }

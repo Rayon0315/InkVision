@@ -19,6 +19,8 @@ DrawBoard::DrawBoard(QWidget *parent, int width, int height) : QWidget(parent) {
     penColor = Qt::white;
     mode = PEN;
 
+    editable = true;
+
     model = {
         {"MLP", "mlp.onnx"},
         {"SimpleCNN", "cnn.onnx"},
@@ -52,6 +54,8 @@ void DrawBoard::mousePressEvent(QMouseEvent *e) {
 }
 
 void DrawBoard::mouseMoveEvent(QMouseEvent *e) {
+    if (!editable) return;
+
     if (!(e->buttons() & Qt::LeftButton)) return;
 
     QPainter p(&canvas);
@@ -277,6 +281,19 @@ cv::Mat DrawBoard::getCanvasMat() {
     return QImageToMat(canvas);
 }
 
+
+QImage DrawBoard::getCanvas() {
+    return canvas.copy();
+}
+
 QImage DrawBoard::exportProcessedImage() {
     return canvas.copy();
+}
+
+void DrawBoard::setEditable(bool ok) {
+    editable = ok;
+}
+
+void DrawBoard::setCanvas(QImage& inputCanvas) {
+    canvas = inputCanvas.copy();
 }

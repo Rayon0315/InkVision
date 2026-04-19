@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <opencv2/dnn.hpp>
 
+#include <DebugData.h>
+
 namespace Ui {
 class DebugWidget;
 }
@@ -20,6 +22,9 @@ public:
     void on_btnClear_clicked();
 
     void pageClear();
+
+signals:
+    void btnFdbkPushed(DebugData& data);
 
 private:
     Ui::DebugWidget *ui;

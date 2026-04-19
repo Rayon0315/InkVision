@@ -45,7 +45,7 @@ ExpressionWidget::ExpressionWidget(QWidget *parent)
         QString style = file.readAll();
         this->setStyleSheet(style);
     } else {
-        qDebug() << "style.css 打不开";
+        qDebug() << "expr.css 打不开";
     }
 }
 

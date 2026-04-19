@@ -26,6 +26,8 @@ private:
     QMap<QString, QString> model;
     int width, height;
 
+    bool editable;
+
 public:
     explicit DrawBoard(
         QWidget *parent = nullptr,
@@ -57,7 +59,11 @@ public:
     void toEraser();
     void fromEraser();
 
+    QImage getCanvas();
     QImage exportProcessedImage();
+
+    void setEditable(bool ok);
+    void setCanvas(QImage& inputCanvas);
 
 signals:
     void mouseMoved(const QPoint& start, const QPoint& end); // 信号函数，供实时调用

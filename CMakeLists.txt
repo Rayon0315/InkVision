@@ -71,6 +71,11 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         Web/ExpressionRecognitionResult.h
         Web/ExpressionRecognitionClient.h
         Web/ExpressionRecognitionClient.cpp
+        DebugComplex.h DebugComplex.cpp DebugComplex.ui
+        FeedbackWidget.h FeedbackWidget.cpp FeedbackWidget.ui
+        DebugData.h
+        Web/FeedbackResult.h
+        Web/FeedbackClient.h Web/FeedbackClient.cpp
 
     )
     # qt_add_resources(InkVision "styles"

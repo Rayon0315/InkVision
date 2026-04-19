@@ -86,7 +86,7 @@
     </item>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
-      <widget class="DebugWidget" name="pageDebug"/>
+      <widget class="DebugComplex" name="pageDebug"/>
       <widget class="QWidget" name="pageStart">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
@@ -125,12 +125,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>DebugWidget</class>
-   <extends>QWidget</extends>
-   <header>DebugWidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>RealtimeWidget</class>
    <extends>QWidget</extends>
    <header>RealtimeWidget.h</header>
@@ -151,6 +145,12 @@
    <class>CustomizedWidget</class>
    <extends>QWidget</extends>
    <header>CustomizedWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DebugComplex</class>
+   <extends>QWidget</extends>
+   <header>DebugComplex.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

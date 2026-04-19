@@ -1,0 +1,334 @@
+/* =========================
+   整体页面
+   ========================= */
+
+QWidget {
+    background-color: #141A24;
+    color: #EAF0FF;
+    font-family: "Microsoft YaHei";
+}
+
+/* =========================
+   页面总标题：问题反馈
+   更亮、更有视觉中心感
+   ========================= */
+QLabel#lblTitle {
+    background: qlineargradient(
+        x1:0, y1:0, x2:1, y2:1,
+        stop:0 #2A1F5C,
+        stop:0.5 #4A3DFF,
+        stop:1 #8A5CFF
+    );
+    color: #FFFFFF;
+    border: 2px solid #9D7BFF;
+    border-radius: 18px;
+    font-size: 28px;
+    font-weight: 800;
+    padding: 12px 28px;
+}
+
+/* =========================
+   副标签主标题：反馈信息
+   换成另一套色系，但风格统一
+   ========================= */
+QLabel#label_2 {
+    background: qlineargradient(
+        x1:0, y1:0, x2:1, y2:0,
+        stop:0 #11304A,
+        stop:0.5 #1C5D8F,
+        stop:1 #2CA6C9
+    );
+    color: #F7FDFF;
+    border: 2px solid #63D8FF;
+    border-radius: 14px;
+    font-size: 19px;
+    font-weight: 750;
+    padding: 10px 18px;
+}
+
+/* =========================
+   普通区块小标题：期望结果 / 额外描述 / 结果分析
+   ========================= */
+QLabel#label_3,
+QLabel#label_4,
+QLabel#label_5 {
+    background-color: #182132;
+    color: #DCE7FF;
+    border: 1.5px solid #3F5E9A;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 8px 14px;
+}
+
+/* =========================
+   输入框
+   editDes / editConf / editModel / editPred / lineEdit / lineEdit_2
+   ========================= */
+
+QLineEdit {
+    background-color: #1E2230;
+    border: 2px solid #3C4C7A;
+    border-radius: 14px;
+    padding: 8px 14px;
+    color: #EAF0FF;
+    font-size: 15px;
+    selection-background-color: #7F4DFF;
+    selection-color: white;
+}
+
+QLineEdit:hover {
+    border: 2px solid #6C8CFF;
+}
+
+QLineEdit:focus {
+    border: 2px solid #8F6BFF;
+    background-color: #24293A;
+}
+
+/* 如果结果分析和额外描述其实还是 QLineEdit，也可以单独指定高度感 */
+QLineEdit#editDes,
+QLineEdit#editConf,
+QLineEdit#editModel,
+QLineEdit#editPred,
+QLineEdit#lineEdit,
+QLineEdit#lineEdit_2 {
+    min-height: 22px;
+}
+
+/* =========================
+   下拉框：期望结果
+   ========================= */
+
+QComboBox#comboBox {
+    background-color: #1B2433;
+    border: 2px solid #3A4A5F;
+    border-radius: 12px;
+    padding: 8px 32px 8px 12px;
+    color: #F4F7FF;
+    font-size: 15px;
+}
+
+QComboBox#comboBox:hover {
+    border: 2px solid #4F6FA3;
+}
+
+QComboBox#comboBox:focus {
+    border: 2px solid #8F6BFF;
+    background-color: #222C3D;
+}
+
+QComboBox#comboBox::drop-down {
+    border: none;
+    width: 24px;
+}
+
+QComboBox#comboBox::down-arrow {
+    image: url(:/icons/arrow_down.svg);
+    width: 18px;
+    height: 18px;
+}
+
+QComboBox#comboBox QAbstractItemView {
+    background-color: #1B2433;
+    border: 1px solid #4A6FA5;
+    border-radius: 8px;
+    color: white;
+    selection-background-color: #355B8C;
+    selection-color: white;
+    outline: none;
+}
+
+/* =========================
+   主按钮：发送反馈
+   ========================= */
+
+QPushButton#btnSend {
+    background: qlineargradient(
+        x1:0, y1:0, x2:1, y2:1,
+        stop:0 #5A6BFF,
+        stop:1 #7F4DFF
+    );
+    border: none;
+    border-radius: 18px;
+    padding: 12px 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+QPushButton#btnSend:hover {
+    background: qlineargradient(
+        x1:0, y1:0, x2:1, y2:1,
+        stop:0 #6D7DFF,
+        stop:1 #9A6BFF
+    );
+}
+
+QPushButton#btnSend:pressed {
+    background: #4C56CC;
+}
+
+QPushButton#btnSend:disabled {
+    background: #2D3344;
+    color: #8B93A7;
+}
+
+/* =========================
+   次按钮：返回
+   ========================= */
+
+QPushButton#btnBack {
+    background-color: #1E2230;
+    border: 2px solid #FF5E87;
+    border-radius: 18px;
+    padding: 12px 20px;
+    color: #FF8CA8;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+QPushButton#btnBack:hover {
+    background-color: #2A2436;
+    border: 2px solid #FF7AA3;
+}
+
+QPushButton#btnBack:pressed {
+    background-color: #201D29;
+}
+
+QPushButton#btnBack:disabled {
+    background: #242833;
+    border: 2px solid #4B4F5C;
+    color: #7E8596;
+}
+
+/* =========================
+   DrawBoard 区域
+   ========================= */
+
+DrawBoard#Board {
+    background-color: #F7F9FC;
+    border: 2px solid #4A6FA5;
+    border-radius: 18px;
+}
+
+/* =========================
+   可选：给中间信息框一种“卡片感”
+   如果右侧/中间其实是普通 QWidget 容器，可给它们设置 objectName 再补
+   ========================= */
+
+/* 只读展示框 */
+QLineEdit#editConf,
+QLineEdit#editModel,
+QLineEdit#editPred {
+    background-color: #181D28;
+    border: 2px solid #2F3A52;
+    color: #D6E0F5;
+}
+
+/* =========================
+   外层卡片：结果分析
+   ========================= */
+QFrame#frameAnalysis {
+    background-color: #18233A;
+    border: 2px solid #4D6EDB;
+    border-radius: 18px;
+}
+
+/* 外层卡片：额外描述 */
+QFrame#frameDesc {
+    background-color: #1D2740;
+    border: 2px solid #5876F2;
+    border-radius: 18px;
+}
+
+/* 内部 QTextEdit 透明化 */
+QFrame#frameAnalysis QTextEdit,
+QFrame#frameDesc QTextEdit {
+    background: transparent;
+    border: none;
+    color: #F3F7FF;
+    padding: 10px 12px;
+    font-size: 15px;
+    selection-background-color: #7A63FF;
+    selection-color: white;
+}
+
+/* hover / focus 时让外层高亮 */
+QFrame#frameDesc:hover {
+    border: 2px solid #7C97FF;
+}
+
+QFrame#frameDesc:focus {
+    border: 2px solid #9B73FF;
+}
+
+QFrame#frameAnalysis:hover {
+    border: 2px solid #6A86F0;
+}
+
+
+/* =========================
+   滚动条：竖向
+   ========================= */
+QTextEdit QScrollBar:vertical {
+    background: transparent;
+    width: 10px;
+    margin: 10px 2px 10px 0px;
+    border: none;
+}
+
+QTextEdit QScrollBar::handle:vertical {
+    background: #5D74C9;
+    min-height: 36px;
+    border-radius: 5px;
+}
+
+QTextEdit QScrollBar::handle:vertical:hover {
+    background: #7B92F0;
+}
+
+QTextEdit QScrollBar::add-line:vertical,
+QTextEdit QScrollBar::sub-line:vertical {
+    background: transparent;
+    border: none;
+    height: 0px;
+}
+
+QTextEdit QScrollBar::add-page:vertical,
+QTextEdit QScrollBar::sub-page:vertical {
+    background: transparent;
+}
+
+/* =========================
+   横向滚动条
+   ========================= */
+QTextEdit QScrollBar:horizontal {
+    background: transparent;
+    height: 10px;
+    margin: 0px 10px 2px 10px;
+    border: none;
+}
+
+QTextEdit QScrollBar::handle:horizontal {
+    background: #5D74C9;
+    min-width: 36px;
+    border-radius: 5px;
+}
+
+QTextEdit QScrollBar::handle:horizontal:hover {
+    background: #7B92F0;
+}
+
+QTextEdit QScrollBar::add-line:horizontal,
+QTextEdit QScrollBar::sub-line:horizontal {
+    background: transparent;
+    border: none;
+    width: 0px;
+}
+
+QTextEdit QScrollBar::add-page:horizontal,
+QTextEdit QScrollBar::sub-page:horizontal {
+    background: transparent;
+}
