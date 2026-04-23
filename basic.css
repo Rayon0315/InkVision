@@ -68,15 +68,21 @@ QPushButton#btnFdbk:hover {
 /* ===== 选择 ===== */
 
 QComboBox {
-    background-color: #1b2433;
-    border: 1px solid #3a4a5f;
-    border-radius: 6px;
-    padding: 6px 28px 6px 10px;
-    color: white;
+    background-color: #1B2433;
+    border: 2px solid #3A4A5F;
+    border-radius: 12px;
+    padding: 8px 32px 8px 12px;
+    color: #F4F7FF;
+    font-size: 15px;
 }
 
 QComboBox:hover {
-    border: 1px solid #4f6fa3;
+    border: 2px solid #4F6FA3;
+}
+
+QComboBox:focus {
+    border: 2px solid #8F6BFF;
+    background-color: #222C3D;
 }
 
 QComboBox::drop-down {
@@ -86,8 +92,18 @@ QComboBox::drop-down {
 
 QComboBox::down-arrow {
     image: url(:/icons/arrow_down.svg);
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #1B2433;
+    border: 1px solid #4A6FA5;
+    border-radius: 8px;
+    color: white;
+    selection-background-color: #355B8C;
+    selection-color: white;
+    outline: none;
 }
 
 /* ===== colorChoiceWidget ===== */

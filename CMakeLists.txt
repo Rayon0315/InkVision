@@ -21,9 +21,14 @@ set(CMAKE_AUTORCC ON)
 # ============================================================
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-find_package(Qt6 REQUIRED COMPONENTS Charts)
-find_package(Qt6 REQUIRED COMPONENTS Widgets Charts Network)
+find_package(Qt6 REQUIRED COMPONENTS
+    Widgets
+    Charts
+    Network
+    Multimedia
+    MultimediaWidgets
+    WebSockets
+)
 
 # ============================================================
 # OpenCV
@@ -76,6 +81,10 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
         DebugData.h
         Web/FeedbackResult.h
         Web/FeedbackClient.h Web/FeedbackClient.cpp
+        CameraWidget.h CameraWidget.cpp CameraWidget.ui
+        Web/GestureResult.h
+        Web/GestureClient.h Web/GestureClient.cpp
+        Web/GestureWebSocketClient.h Web/GestureWebSocketClient.cpp
 
     )
     # qt_add_resources(InkVision "styles"
@@ -97,10 +106,13 @@ endif()
 
 target_link_libraries(InkVision
     PRIVATE
-        Qt6::Widgets
-        Qt6::Charts
-        Qt6::Network
-        ${OpenCV_LIBS}
+    Qt6::Widgets
+    Qt6::Charts
+    Qt6::Network
+    Qt6::Multimedia
+    Qt6::MultimediaWidgets
+    Qt6::WebSockets
+    ${OpenCV_LIBS}
 )
 
 target_include_directories(InkVision

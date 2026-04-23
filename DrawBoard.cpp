@@ -2,6 +2,7 @@
 #include "MyMath.h"
 #include <QPainter>
 #include <QMouseEvent>
+#include <algorithm>
 
 #include <opencv2/opencv.hpp>
 #include "Common.h"
@@ -20,6 +21,8 @@ DrawBoard::DrawBoard(QWidget *parent, int width, int height) : QWidget(parent) {
     mode = PEN;
 
     editable = true;
+
+    airDrawing = false;
 
     model = {
         {"MLP", "mlp.onnx"},
@@ -42,6 +45,7 @@ void DrawBoard::adjustSize(int width, int height) {
 
 void DrawBoard::clear() {
     canvas.fill(backgroundColor);
+    airDrawing = false;
     update();
 }
 
@@ -51,23 +55,21 @@ void DrawBoard::paintEvent(QPaintEvent *) {
 }
 
 void DrawBoard::mousePressEvent(QMouseEvent *e) {
+    if (!editable) return;
+
     if (e->button() == Qt::LeftButton)
-        lastPos = e->pos();
+        lastPos = clampPoint(e->pos());
 }
 
 void DrawBoard::mouseMoveEvent(QMouseEvent *e) {
     if (!editable) return;
-
     if (!(e->buttons() & Qt::LeftButton)) return;
 
-    QPainter p(&canvas);
-    QColor color = (mode == PEN) ? penColor : backgroundColor;
-    p.setPen(QPen(color, penWidth, Qt::SolidLine, Qt::RoundCap));
-    p.drawLine(lastPos, e->pos());
-    lastPos = e->pos();
-    update();
+    QPoint start = clampPoint(lastPos);
+    QPoint end = clampPoint(e->pos());
 
-    emit mouseMoved(lastPos, e->pos());
+    drawSegment(start, end);
+    lastPos = end;
 }
 
 void DrawBoard::setPenWidth(int value) {
@@ -298,4 +300,51 @@ void DrawBoard::setEditable(bool ok) {
 
 void DrawBoard::setCanvas(QImage& inputCanvas) {
     canvas = inputCanvas.copy();
+    airDrawing = false;
+    update();
+}
+
+QPoint DrawBoard::clampPoint(const QPoint& pt) const {
+    int x = std::clamp(pt.x(), 0, width - 1);
+    int y = std::clamp(pt.y(), 0, height - 1);
+    return QPoint(x, y);
+}
+
+void DrawBoard::drawSegment(const QPoint& start, const QPoint& end) {
+    QPainter p(&canvas);
+    QColor color = (mode == PEN) ? penColor : backgroundColor;
+    p.setPen(QPen(color, penWidth, Qt::SolidLine, Qt::RoundCap));
+    p.drawLine(start, end);
+
+    update();
+    emit mouseMoved(start, end);
+}
+
+void DrawBoard::beginAirStroke(const QPoint& pt) {
+    if (!editable) return;
+
+    lastPos = clampPoint(pt);
+    airDrawing = true;
+}
+
+void DrawBoard::appendAirStrokePoint(const QPoint& pt) {
+    if (!editable) return;
+    if (!airDrawing) return;
+
+    QPoint start = clampPoint(lastPos);
+    QPoint end = clampPoint(pt);
+
+    // 可选：避免零长度或极短抖动线段
+    if (start == end) return;
+
+    drawSegment(start, end);
+    lastPos = end;
+}
+
+void DrawBoard::endAirStroke() {
+    airDrawing = false;
+}
+
+bool DrawBoard::isAirDrawing() const {
+    return airDrawing;
 }

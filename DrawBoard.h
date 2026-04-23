@@ -28,6 +28,11 @@ private:
 
     bool editable;
 
+    bool airDrawing;
+
+    void drawSegment(const QPoint& start, const QPoint& end); // 统一绘制一段线
+    QPoint clampPoint(const QPoint& pt) const;                // 坐标裁剪
+
 public:
     explicit DrawBoard(
         QWidget *parent = nullptr,
@@ -64,6 +69,12 @@ public:
 
     void setEditable(bool ok);
     void setCanvas(QImage& inputCanvas);
+
+    // 供摄像头/手势输入使用
+    void beginAirStroke(const QPoint& pt);
+    void appendAirStrokePoint(const QPoint& pt);
+    void endAirStroke();
+    bool isAirDrawing() const;
 
 signals:
     void mouseMoved(const QPoint& start, const QPoint& end); // 信号函数，供实时调用

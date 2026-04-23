@@ -70,6 +70,19 @@
        </widget>
       </item>
       <item>
+       <widget class="NavButton" name="btnCamera">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Camera</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="NavButton" name="btnDebug">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -106,6 +119,7 @@
       </widget>
       <widget class="RealtimeWidget" name="pageRealtime"/>
       <widget class="ExpressionWidget" name="pageExpr"/>
+      <widget class="CameraWidget" name="pageCamera"/>
       <widget class="CustomizedWidget" name="pageCustomized"/>
      </widget>
     </item>
@@ -151,6 +165,12 @@
    <class>DebugComplex</class>
    <extends>QWidget</extends>
    <header>DebugComplex.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CameraWidget</class>
+   <extends>QWidget</extends>
+   <header>CameraWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
